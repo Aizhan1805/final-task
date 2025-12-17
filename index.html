@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Final Task Webpage</title>
+
+  <style>
+    /* ===== NEW STYLE: Light Yellow + Fresh Green ===== */
+    :root{
+      --bgA:#fff7b3;      /* very light yellow */
+      --bgB:#fffbe0;      /* creamy yellow */
+      --bgC:#eaffd2;      /* pale green */
+
+      --card:#ffffff;
+      --card2:#fffef6;
+      --border: rgba(20,40,20,.14);
+
+      --text:#0b1b0f;
+      --muted: rgba(11,27,15,.68);
+
+      --green:#1f9b4d;
+      --green2:#4ad66d;
+      --yellow:#ffd84a;
+      --yellow2:#ffef8a;
+
+      --shadow: 0 18px 45px rgba(14,30,18,.16);
+      --shadow2: 0 10px 22px rgba(14,30,18,.12);
+      --ring: 0 0 0 4px rgba(31,155,77,.18);
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      color:var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(900px 520px at 20% 10%, rgba(255,216,74,.55), transparent 60%),
+        radial-gradient(900px 520px at 85% 20%, rgba(74,214,109,.30), transparent 62%),
+        linear-gradient(135deg, var(--bgA), var(--bgB) 40%, var(--bgC));
+    }
+    a{ color:inherit; }
+
+    /* ===== TOPBAR ===== */
+    .topbar{
+      position: sticky; top:0; z-index: 10;
+      padding: 18px 22px;
+      background: rgba(255,255,255,.62);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 10px 20px rgba(14,30,18,.10);
+    }
+    .brand h1{
+      margin:0;
+      font-size: 22px;
+      letter-spacing: .2px;
+      font-weight: 900;
+      background: linear-gradient(90deg, var(--green), #1a7a3f, var(--yellow));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .brand p{ margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+
+    .nav{ margin-top: 12px; display:flex; gap:10px; flex-wrap: wrap; }
+    .pill{
+      text-decoration:none;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255,239,138,.65), rgba(255,255,255,.75));
+      border: 1px solid rgba(31,155,77,.22);
+      box-shadow: 0 10px 18px rgba(14,30,18,.10);
+      font-size: 13px;
+      font-weight: 800;
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .pill:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 14px 24px rgba(14,30,18,.14);
+    }
+
+    .wrap{ max-width: 1100px; margin: 22px auto 40px; padding: 0 18px; }
+
+    .grid2{ display:grid; grid-template-columns: 1.3fr 1fr; gap: 18px; }
+    .smallgap{ gap: 14px; }
+
+    /* ===== CARDS ===== */
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,254,246,.96));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(600px 260px at 20% 0%, rgba(255,216,74,.30), transparent 60%),
+        radial-gradient(600px 260px at 90% 10%, rgba(74,214,109,.18), transparent 60%);
+      pointer-events:none;
+      opacity:.75;
+    }
+    .card > *{ position: relative; }
+
+    .card h2{ margin: 0 0 6px; font-size: 18px; }
+    .muted{ color: var(--muted); margin: 0 0 14px; }
+
+    .miniCard{
+      background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,251,224,.72));
+      border: 1px solid rgba(31,155,77,.20);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: var(--shadow2);
+      margin-bottom: 12px;
+    }
+    .miniCard h3{ margin: 0 0 10px; font-size: 15px; }
+
+    /* ===== FORMS ===== */
+    .formgrid{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .formgrid.onecol{ grid-template-columns: 1fr; }
+
+    .field label{
+      display:block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 800;
+      letter-spacing: .02em;
+    }
+    input, textarea{
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid rgba(31,155,77,.22);
+      background: rgba(255,255,255,.92);
+      color: var(--text);
+      padding: 10px 12px;
+      outline: none;
+      box-shadow: inset 0 0 0 1px rgba(255,216,74,.18);
+      transition: box-shadow .15s ease, transform .12s ease, border-color .15s ease;
+    }
+    input::placeholder, textarea::placeholder{ color: rgba(11,27,15,.40); }
+    textarea{ resize: vertical; }
+    input:focus, textarea:focus{
+      border-color: rgba(31,155,77,.55);
+      box-shadow: var(--ring), inset 0 0 0 1px rgba(255,216,74,.25);
+      transform: translateY(-1px);
+    }
+
+    .about{ margin-top: 12px; }
+    .about h3{ margin: 0 0 8px; font-size: 14px; }
+
+    /* ===== CHIPS ===== */
+    .chips{ display:flex; flex-wrap:wrap; gap: 8px; margin: 12px 0 14px; }
+    .chip{
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(31,155,77,.22);
+      background: linear-gradient(90deg, rgba(255,239,138,.80), rgba(74,214,109,.18));
+      font-weight: 800;
+    }
+
+    /* ===== BUTTONS ===== */
+    .actions{ display:flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+    .btn{
+      border: 1px solid rgba(31,155,77,.25);
+      background: rgba(255,255,255,.88);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: 900;
+      transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 14px 24px rgba(14,30,18,.14);
+      filter: saturate(1.05);
+    }
+    .btn.primary{
+      background: linear-gradient(90deg, var(--yellow2), var(--yellow), rgba(74,214,109,.65));
+      border-color: rgba(31,155,77,.30);
+    }
+    .btn.danger{
+      background: linear-gradient(90deg, rgba(255,120,120,.22), rgba(255,239,138,.45));
+      border-color: rgba(190,30,30,.22);
+    }
+
+    .tip{ margin-top: 10px; color: var(--muted); font-size: 12px; }
+
+    /* ===== TASKS ===== */
+    .taskBlock{
+      background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(234,255,210,.55));
+      border: 1px solid rgba(31,155,77,.18);
+      border-radius: 16px;
+      padding: 14px;
+      margin-top: 12px;
+      box-shadow: var(--shadow2);
+    }
+    ul{ margin: 10px 0 0; padding-left: 18px; }
+    li{ margin-bottom: 7px; color: rgba(11,27,15,.90); }
+
+    /* ===== TO DO ===== */
+    .todoRow{ display:flex; gap: 10px; }
+    .todoList{ list-style:none; padding-left:0; margin: 12px 0 0; }
+    .todoItem{
+      display:flex; align-items:center; justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid rgba(31,155,77,.20);
+      background: rgba(255,255,255,.92);
+      border-radius: 14px;
+      margin-bottom: 10px;
+      box-shadow: 0 10px 18px rgba(14,30,18,.10);
+    }
+    .todoItem button{ padding: 8px 10px; border-radius: 12px; }
+
+    /* ===== CALC ===== */
+    .calc{ display:flex; flex-direction:column; gap: 10px; }
+    .calcBtns{ display:flex; gap: 8px; flex-wrap: wrap; }
+    .result{
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(31,155,77,.20);
+      box-shadow: 0 10px 18px rgba(14,30,18,.10);
+    }
+
+    .err{
+      color: rgba(190,30,30,.95);
+      font-size: 12px;
+      min-height: 16px;
+      display:block;
+      margin-top: 6px;
+      font-weight: 700;
+    }
+
+    /* ===== USERS ===== */
+    .usersList{ list-style:none; padding-left:0; margin: 12px 0 0; }
+    .userItem{
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(31,155,77,.20);
+      margin-bottom: 10px;
+      color: rgba(11,27,15,.90);
+      box-shadow: 0 10px 18px rgba(14,30,18,.10);
+    }
+
+    .footer{
+      margin-top: 18px;
+      text-align:center;
+      color: rgba(11,27,15,.65);
+      font-size: 12px;
+      padding: 10px 0;
+      font-weight: 700;
+    }
+
+    @media (max-width: 900px){
+      .grid2{ grid-template-columns: 1fr; }
+      .todoRow{ flex-direction: column; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>Final Task Webpage</h1>
+      <p>Student Profile + README + Weekly Tasks (Combined)</p>
+    </div>
+
+    <nav class="nav">
+      <a class="pill" href="#profile">Profile</a>
+      <a class="pill" href="#weekly">Weekly Tasks</a>
+      <a class="pill" href="#combined">Combined 2 Tasks</a>
+      <a class="pill" href="#task0511">05-11-2025 Task</a>
+      <a class="pill" href="#readme">README</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="grid2">
+      <!-- LEFT -->
+      <section id="profile" class="card">
+        <h2>Student Profile</h2>
+        <p class="muted">Edit the fields below with your real data, then commit to GitHub.</p>
+
+        <div class="formgrid">
+          <div class="field">
+            <label for="fullName">Full Name</label>
+            <input id="fullName" type="text" placeholder="Aizhan Bolatkhan" />
+          </div>
+          <div class="field">
+            <label for="course">Group / Course</label>
+            <input id="course" type="text" placeholder="Introduction to HTML, CSS & JavaScript" />
+          </div>
+
+          <div class="field">
+            <label for="university">University</label>
+            <input id="university" type="text" placeholder="ISMA (Riga, Latvia)" />
+          </div>
+          <div class="field">
+            <label for="github">GitHub</label>
+            <input id="github" type="url" placeholder="https://github.com/Aizhan1805" />
+          </div>
+
+          <div class="field">
+            <label for="studentId">Student ID</label>
+            <input id="studentId" type="text" placeholder="25-1808" />
+          </div>
+          <div class="field">
+            <label for="year">Year</label>
+            <input id="year" type="text" placeholder="2025" />
+          </div>
+        </div>
+
+        <div class="about">
+          <h3>About Me</h3>
+          <textarea id="aboutMe" rows="5" placeholder="Write a short about me..."></textarea>
+        </div>
+
+        <div class="chips">
+          <span class="chip">HTML</span>
+          <span class="chip">CSS</span>
+          <span class="chip">JavaScript</span>
+          <span class="chip">GitHub Pages</span>
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" id="saveBtn">Save Profile (localStorage)</button>
+          <button class="btn danger" id="resetBtn">Reset</button>
+        </div>
+
+        <p class="tip">Tip: Saving profile uses your browser storage only (works offline).</p>
+      </section>
+
+      <!-- RIGHT -->
+      <section class="card">
+        <h2>Quick Checklist</h2>
+
+        <div class="miniCard">
+          <h3>Repo 1: “Final Task”</h3>
+          <ul>
+            <li>Upload <b>index.html</b></li>
+            <li>Upload <b>README.md</b></li>
+            <li>Enable <b>GitHub Pages</b></li>
+          </ul>
+        </div>
+
+        <div class="miniCard">
+          <h3>Repo 2: weekly tasks repo</h3>
+          <ul>
+            <li>Weekly tasks page</li>
+            <li>Commit & publish</li>
+          </ul>
+        </div>
+
+        <div class="miniCard">
+          <h3>How to Publish</h3>
+          <ul>
+            <li>Settings → Pages</li>
+            <li>Branch: <b>main</b>, folder: <b>/root</b></li>
+            <li>Save → open your link</li>
+          </ul>
+        </div>
+      </section>
+    </section>
+
+    <!-- Weekly Tasks -->
+    <section id="weekly" class="card">
+      <h2>Weekly Tasks & Activities</h2>
+      <p class="muted">All tasks collected in one place (organized by dates from your homework).</p>
+
+      <div class="taskBlock">
+        <h3>Task 2 — 15.10.2025</h3>
+        <ul>
+          <li>Finish and publish previous work to GitHub (from teacher file)</li>
+          <li>Complete one task from the class allocation (choose 2/3/4 if unsure)</li>
+          <li>Prepare my own profile (sample) and upload to GitHub</li>
+        </ul>
+      </div>
+
+      <div class="taskBlock">
+        <h3>Task — 29.10.2025</h3>
+        <ul>
+          <li>Create a webpage for weekly tasks (clean layout)</li>
+          <li>Organize content by weeks and add descriptions</li>
+          <li>Publish to GitHub Pages</li>
+        </ul>
+      </div>
+
+      <div class="taskBlock">
+        <h3>Task — 26.11.2025</h3>
+        <ul>
+          <li>Progress report certification presentation</li>
+          <li>Mini project presentation with improvement</li>
+          <li>Create HTML & CSS table (Number, Full Name, Course, Student ID, Year)</li>
+        </ul>
+      </div>
+
+      <div class="taskBlock">
+        <h3>Task — 03.12.2025</h3>
+        <ul>
+          <li>Review W3Schools HTML & CSS</li>
+          <li>Prepare slides based on reading</li>
+        </ul>
+      </div>
+
+      <div class="taskBlock">
+        <h3>Final Task — 10.12.2025</h3>
+        <ul>
+          <li>Final personal profile web page including all tasks and CV</li>
+          <li>Complete certification presentation</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Combined -->
+    <section id="combined" class="card">
+      <h2>Combined 2 Tasks</h2>
+      <p class="muted">Mini projects: To-Do list + Calculator (saved in localStorage).</p>
+
+      <div class="grid2 smallgap">
+        <div class="miniCard">
+          <h3>Mini Project 1: To-Do List</h3>
+          <div class="todoRow">
+            <input id="todoInput" type="text" placeholder="Add a task..." />
+            <button class="btn primary" id="addTodoBtn">Add</button>
+          </div>
+          <ul class="todoList" id="todoList"></ul>
+          <p class="tip">Saved in localStorage.</p>
+        </div>
+
+        <div class="miniCard">
+          <h3>Mini Project 2: Calculator</h3>
+          <div class="calc">
+            <input id="calcA" type="number" placeholder="A" />
+            <input id="calcB" type="number" placeholder="B" />
+            <div class="calcBtns">
+              <button class="btn" data-op="+">+</button>
+              <button class="btn" data-op="-">−</button>
+              <button class="btn" data-op="*">×</button>
+              <button class="btn" data-op="/">÷</button>
+            </div>
+            <div class="result">
+              Result: <b id="calcResult">0</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05-11-2025 -->
+    <section id="task0511" class="card">
+      <h2>05-11-2025 Task: Registration Form (localStorage)</h2>
+      <p class="muted">Simple validation + saving registered users.</p>
+
+      <div class="grid2 smallgap">
+        <div class="miniCard">
+          <h3>Register</h3>
+          <form id="regForm" class="formgrid onecol" novalidate>
+            <div class="field">
+              <label for="regName">Full Name</label>
+              <input id="regName" type="text" placeholder="Your name" />
+              <small class="err" id="errName"></small>
+            </div>
+            <div class="field">
+              <label for="regEmail">Email</label>
+              <input id="regEmail" type="email" placeholder="name@email.com" />
+              <small class="err" id="errEmail"></small>
+            </div>
+            <div class="field">
+              <label for="regPass">Password</label>
+              <input id="regPass" type="password" placeholder="Min 6 characters" />
+              <small class="err" id="errPass"></small>
+            </div>
+            <button class="btn primary" type="submit">Save User</button>
+          </form>
+        </div>
+
+        <div class="miniCard">
+          <h3>Saved Users</h3>
+          <ul id="usersList" class="usersList"></ul>
+          <button class="btn danger" id="clearUsersBtn">Clear Users</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- README -->
+    <section id="readme" class="card">
+      <h2>README (copy into README.md)</h2>
+      <p class="muted">Short description for your repo.</p>
+
+      <div class="miniCard">
+        <pre style="margin:0; white-space:pre-wrap; color: rgba(11,27,15,.92);">
+# Final Task Webpage
+
+This is my final personal webpage for the course **Introduction to HTML, CSS & JavaScript**.
+
+## Features
+- Student profile (saved in localStorage)
+- Weekly tasks list (organized by dates)
+- Mini projects: To-Do list and Calculator
+- Registration form (validation + localStorage)
+- Published with GitHub Pages
+
+## Technologies
+HTML, CSS, JavaScript, GitHub Pages
+
+## Live Demo
+https://aizhan1805.github.io/final-task/
+        </pre>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>© 2025 • Aizhan Bolatkhan • Final Task</span>
+    </footer>
+  </main>
+
+  <script>
+    // ---------- Profile (localStorage) ----------
+    const profileKeys = ["fullName","course","university","github","studentId","year","aboutMe"];
+
+    function loadProfile(){
+      profileKeys.forEach(k=>{
+        const el = document.getElementById(k);
+        if(!el) return;
+        const saved = localStorage.getItem("profile_"+k);
+        if(saved !== null) el.value = saved;
+      });
+      // default text if empty
+      const about = document.getElementById("aboutMe");
+      if(about && about.value.trim()===""){
+        about.value = "My name is Aizhan Bolatkhan. I am a student currently studying HTML, CSS, and JavaScript as part of my web development course. This website combines my weekly tasks, mini projects, and final task requirements in one place.";
+      }
+    }
+
+    function saveProfile(){
+      profileKeys.forEach(k=>{
+        const el = document.getElementById(k);
+        if(!el) return;
+        localStorage.setItem("profile_"+k, el.value.trim());
+      });
+      alert("Profile saved!");
+    }
+
+    function resetProfile(){
+      profileKeys.forEach(k=> localStorage.removeItem("profile_"+k));
+      loadProfile();
+    }
+
+    document.getElementById("saveBtn")?.addEventListener("click", saveProfile);
+    document.getElementById("resetBtn")?.addEventListener("click", resetProfile);
+
+    // ---------- To-do (localStorage) ----------
+    const todoInput = document.getElementById("todoInput");
+    const todoList = document.getElementById("todoList");
+
+    function getTodos(){
+      try { return JSON.parse(localStorage.getItem("todos") || "[]"); }
+      catch { return []; }
+    }
+    function setTodos(arr){
+      localStorage.setItem("todos", JSON.stringify(arr));
+    }
+    function renderTodos(){
+      const todos = getTodos();
+      todoList.innerHTML = "";
+      todos.forEach((t, idx)=>{
+        const li = document.createElement("li");
+        li.className = "todoItem";
+        li.innerHTML = `<span>${t}</span>`;
+        const del = document.createElement("button");
+        del.className = "btn danger";
+        del.textContent = "Delete";
+        del.onclick = ()=>{
+          const next = getTodos().filter((_,i)=>i!==idx);
+          setTodos(next);
+          renderTodos();
+        };
+        li.appendChild(del);
+        todoList.appendChild(li);
+      });
+    }
+    function addTodo(){
+      const val = (todoInput.value || "").trim();
+      if(!val) return;
+      const todos = getTodos();
+      todos.push(val);
+      setTodos(todos);
+      todoInput.value = "";
+      renderTodos();
+    }
+    document.getElementById("addTodoBtn")?.addEventListener("click", addTodo);
+    todoInput?.addEventListener("keydown", (e)=>{ if(e.key==="Enter") addTodo(); });
+
+    // ---------- Calculator ----------
+    const calcA = document.getElementById("calcA");
+    const calcB = document.getElementById("calcB");
+    const calcResult = document.getElementById("calcResult");
+
+    function doCalc(op){
+      const a = Number(calcA.value);
+      const b = Number(calcB.value);
+      let r = 0;
+      if(op==="+") r = a+b;
+      if(op==="-" ) r = a-b;
+      if(op==="*" ) r = a*b;
+      if(op==="/" ) r = (b===0) ? "Error" : (a/b);
+      calcResult.textContent = r;
+    }
+    document.querySelectorAll("[data-op]").forEach(btn=>{
+      btn.addEventListener("click", ()=> doCalc(btn.dataset.op));
+    });
+
+    // ---------- Registration form ----------
+    const regForm = document.getElementById("regForm");
+    const usersList = document.getElementById("usersList");
+
+    function getUsers(){
+      try { return JSON.parse(localStorage.getItem("users") || "[]"); }
+      catch { return []; }
+    }
+    function setUsers(arr){
+      localStorage.setItem("users", JSON.stringify(arr));
+    }
+    function renderUsers(){
+      const users = getUsers();
+      usersList.innerHTML = "";
+      if(users.length===0){
+        const li = document.createElement("li");
+        li.className = "userItem";
+        li.textContent = "No saved users yet.";
+        usersList.appendChild(li);
+        return;
+      }
+      users.forEach(u=>{
+        const li = document.createElement("li");
+        li.className = "userItem";
+        li.innerHTML = `<b>${u.name}</b><br><span>${u.email}</span>`;
+        usersList.appendChild(li);
+      });
+    }
+
+    function setErr(id, msg){
+      const el = document.getElementById(id);
+      if(el) el.textContent = msg || "";
+    }
+
+    regForm?.addEventListener("submit", (e)=>{
+      e.preventDefault();
+      const name = document.getElementById("regName").value.trim();
+      const email = document.getElementById("regEmail").value.trim();
+      const pass = document.getElementById("regPass").value;
+
+      let ok = true;
+      setErr("errName","");
+      setErr("errEmail","");
+      setErr("errPass","");
+
+      if(name.length < 2){ setErr("errName","Enter your full name (min 2 chars)."); ok=false; }
+      if(!email.includes("@") || email.length < 6){ setErr("errEmail","Enter a valid email."); ok=false; }
+      if(pass.length < 6){ setErr("errPass","Password must be at least 6 characters."); ok=false; }
+
+      if(!ok) return;
+
+      const users = getUsers();
+      users.push({name, email});
+      setUsers(users);
+      regForm.reset();
+      renderUsers();
+      alert("User saved!");
+    });
+
+    document.getElementById("clearUsersBtn")?.addEventListener("click", ()=>{
+      localStorage.removeItem("users");
+      renderUsers();
+    });
+
+    // init
+    loadProfile();
+    renderTodos();
+    renderUsers();
+  </script>
+</body>
+</html>
